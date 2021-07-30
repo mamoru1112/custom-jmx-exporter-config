@@ -32,6 +32,7 @@ whitelistObjectNames:
 - "jboss.as:subsystem=messaging-activemq,server=*,jms-topic=*"
 - "jboss.as:subsystem=transactions"
 - "jboss.as:subsystem=undertow,server=*,http-listener=*"
+- "org.xnio:type=Xnio,provider=*,worker=*"
 blacklistObjectNames:
 # handled by agent's default exporter
 - "java.lang:*"
@@ -344,3 +345,11 @@ rules:
     $2: $3
   attrNameSnakeCase: true
   type: COUNTER
+
+# Xnio
+- pattern: "org.xnio<type=Xnio, provider=(.+), worker=(.+)><>(.*):(.*)"
+  name: xnio_$3
+  attrNameSnakeCase: true
+  labels:
+    provider: $1
+    worker: $2
